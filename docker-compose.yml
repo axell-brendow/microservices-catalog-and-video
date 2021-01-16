@@ -1,0 +1,63 @@
+version: "3.1"
+
+networks:
+  video_catalog:
+    driver: bridge
+
+volumes:
+  video_catalog_data:
+    driver: local
+
+services:
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: video_catalog_db
+    restart: unless-stopped
+    ports:
+      - "33006:3306"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=video_catalog
+    volumes:
+      - video_catalog_data:/var/lib/mysql
+    networks:
+      - video_catalog
+
+  redis:
+    image: redis:alpine3.12
+    container_name: video_catalog_redis
+    restart: unless-stopped
+    networks:
+      - video_catalog
+
+  app:
+    build: .
+    container_name: video_catalog_app
+    restart: unless-stopped
+    environment:
+      - _DB_HOST=db
+      - _DB_DATABASE=video_catalog
+      - _DB_USERNAME=root
+      - _DB_PASSWORD=root
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - redis
+    networks:
+      - video_catalog
+
+  web:
+    build: ./.docker/nginx
+    container_name: video_catalog_web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - video_catalog
