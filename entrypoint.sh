@@ -9,7 +9,7 @@ dockerize -wait tcp://db:3306 -timeout 120s
 
 php artisan cache:clear
 php artisan config:clear
-dockerize -template ./.docker/app/.env:.env
+dockerize -template ./.docker/app/.env:.env -template ./.docker/app/.env.testing:.env.testing
 php artisan key:generate
 php artisan migrate:fresh --seed
 

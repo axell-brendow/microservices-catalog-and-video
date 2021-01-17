@@ -1,0 +1,29 @@
+steps:
+
+- id: "Running docker-compose"
+  name: 'gcr.io/$PROJECT_ID/docker-compose:1.25.5'
+  args: ['-f', 'docker-compose.cloud-build.yml', 'up', '-d']
+
+- id: "Chown in /var/www"
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'exec', '-u', 'root', '-t', 'video_catalog_app', 'chown', '-R', 'www-data:www-data', '/var/www']
+
+- id: "Running docker ps"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['ps']
+
+- id: "Running composer"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['exec', '-t', 'video_catalog_app', 'composer', 'install']
+
+- id: "Running php artisan key:generate"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['exec', '-t', 'video_catalog_app', 'php', 'artisan', 'key:generate']
+
+- id: "Running migrations"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['exec', '-t', 'video_catalog_app', 'php', 'artisan', 'migrate']
+
+- id: "Running tests"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['exec', '-t', 'video_catalog_app', 'php', 'vendor/bin/phpunit', '-c', 'phpunit.xml']
