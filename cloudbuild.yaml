@@ -6,7 +6,7 @@ steps:
 
 - id: "Chown in /var/www"
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'exec', '-u', 'root', '-t', 'video_catalog_app', 'chown', '-R', 'www-data:www-data', '/var/www']
+  args: [ 'exec', '-u', 'root', '-t', 'video_catalog_app', 'chown', '-R', 'www-data:www-data', '/var/www/html']
 
 - id: "Running docker ps"
   name: 'gcr.io/cloud-builders/docker'
