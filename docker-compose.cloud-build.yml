@@ -37,6 +37,7 @@ services:
     container_name: video_catalog_app
     restart: unless-stopped
     environment:
+#      - XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9000 remote_autostart=1
       - _DB_HOST=db
       - _DB_DATABASE=video_catalog
       - _TEST_DB_DATABASE=video_catalog_test
