@@ -6,6 +6,14 @@ First microservice of the course "[Architecting and Developing modern and scalab
 
 Download this repository and run: `sudo docker-compose up`
 
+## Generating files to help your IDE:
+
+```
+php artisan ide-helper:generate
+php artisan ide-helper:models
+php artisan ide-helper:meta # Only PHPStorm
+```
+
 ---
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
