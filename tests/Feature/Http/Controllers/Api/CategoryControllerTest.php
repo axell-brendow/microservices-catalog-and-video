@@ -81,31 +81,31 @@ class CategoryControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $new_category_data = ['name' => 'a', 'description' => 'test', 'is_active' => true];
+        $newCategoryData = ['name' => 'a', 'description' => 'test', 'is_active' => true];
         $this->category = factory(Category::class)->create([
             'description' => 'description',
             'is_active' => false
         ]);
         $response = $this->assertUpdate(
-            $new_category_data,
-            $new_category_data + ['deleted_at' => null],
-            $new_category_data + ['deleted_at' => null]
+            $newCategoryData,
+            $newCategoryData + ['deleted_at' => null],
+            $newCategoryData + ['deleted_at' => null]
         );
         $response->assertJsonStructure(['created_at', 'updated_at']);
     }
 
     public function testUpdateWithEmptyDescription()
     {
-        $new_category_data = ['name' => 'test', 'description' => ''];
-        $new_category_data_in_db = array_merge($new_category_data, ['description' => null]);
+        $newCategoryData = ['name' => 'test', 'description' => ''];
+        $newCategoryDataInDb = array_merge($newCategoryData, ['description' => null]);
         $this->category = factory(Category::class)->create([
             'description' => 'description',
             'is_active' => false
         ]);
         $response = $this->assertUpdate(
-            $new_category_data,
-            $new_category_data_in_db + ['deleted_at' => null],
-            $new_category_data_in_db + ['deleted_at' => null]
+            $newCategoryData,
+            $newCategoryDataInDb + ['deleted_at' => null],
+            $newCategoryDataInDb + ['deleted_at' => null]
         );
         $response->assertJsonStructure(['created_at', 'updated_at']);
     }

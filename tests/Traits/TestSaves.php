@@ -7,6 +7,10 @@ use Illuminate\Testing\TestResponse;
 
 trait TestSaves
 {
+    protected abstract function model(): string;
+    protected abstract function routeStore(): string;
+    protected abstract function routeUpdate(): string;
+
     protected function assertStore(
         array $sendData,
         array $expectedDatabaseData,
